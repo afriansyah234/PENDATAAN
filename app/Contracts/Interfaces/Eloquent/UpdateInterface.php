@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Contracts\Interfaces\Eloquent;
 
 use Illuminate\Support\Facades\Request;
 
