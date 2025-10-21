@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = Classroom::all();
-        return response()->json($classrooms);
+        return ResponseHelper::success('Daftar semua kelas', $classrooms);
     }
 
     /**
@@ -29,15 +30,27 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validated = $request->validate([
+            'name_classroom' => 'required|string|max:255'
+        ]);
+
+        $classroom = Classroom::create($validated);
+
+        return ResponseHelper::success('Kelas berhasil dibuat', $classroom, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Classroom $classroom)
+    public function show($id)
     {
-        //
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+        }
+
+        return ResponseHelper::success('Detail kelas', $classroom);
     }
 
     /**
@@ -51,16 +64,36 @@ class ClassroomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Classroom $classroom)
+    public function update(Request $request, $id)
     {
-        //
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+        }
+
+        $validated = $request->validate([
+            'name_classroom' => 'sometimes|required|string|max:255'
+        ]);
+
+        $classroom->update($validated);
+
+        return ResponseHelper::success('Kelas berhasil diperbarui', $classroom);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classroom $classroom)
+    public function destroy($id)
     {
-        //
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+        }
+
+        $classroom->delete();
+
+        return ResponseHelper::success('Kelas berhasil dihapus');
     }
 }
