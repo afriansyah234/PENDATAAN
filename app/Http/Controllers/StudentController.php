@@ -33,7 +33,7 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            
+
         ]);
 
         $student = Student::create($validated);
@@ -101,4 +101,7 @@ class StudentController extends Controller
 
         return ResponseHelper::success(null, 'Data siswa berhasil dihapus');
     }
+
+    
 }
+
