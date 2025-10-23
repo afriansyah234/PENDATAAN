@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
+use App\Http\Requests\ClassroomRequest;
 
 class ClassroomController extends Controller
 {
@@ -28,13 +29,10 @@ class ClassroomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClassroomRequest $request)
     {
-        $validated = $request->validate([
-            'name_classroom' => 'required|string|max:255'
-        ]);
 
-        $classroom = Classroom::create($validated);
+        $classroom = Classroom::create($request->validated());
 
         return ResponseHelper::success('Kelas berhasil dibuat', $classroom, 201);
     }
