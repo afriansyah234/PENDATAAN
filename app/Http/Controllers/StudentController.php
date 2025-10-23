@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -30,15 +31,16 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
+
+        $student = Student::create($request->validated());
         $validated = $request->validate([
 
         ]);
 
-        $student = Student::create($validated);
+         return ResponseHelper::success('Kelas berhasil dibuat', $student, 201);
 
-        return e($student, 'Data siswa berhasil ditambahkan');
     }
 
     /**
@@ -102,6 +104,6 @@ class StudentController extends Controller
         return ResponseHelper::success(null, 'Data siswa berhasil dihapus');
     }
 
-    
+
 }
 
