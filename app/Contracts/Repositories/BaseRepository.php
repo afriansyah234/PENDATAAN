@@ -4,7 +4,7 @@ namespace App\Contracts\Repositories;
 use App\Contracts\Interfaces\Eloquent\Baseinterface;
 use Illuminate\Database\Eloquent\Model;
 
-class BaseRepository implements Baseinterface
+class BaseRepository extends Baseinterface
 {
     /**
      * @var Model $model
@@ -23,7 +23,7 @@ class BaseRepository implements Baseinterface
 
     /**
      * @param array $a
-     * 
+     *
      * @return mixed
      */
 

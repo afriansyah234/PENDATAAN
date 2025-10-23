@@ -2,24 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ClassroomRepository;
 use App\Helpers\ResponseHelper;
-use App\Models\Classroom;
-use Illuminate\Http\Request;
 use App\Http\Requests\ClassroomRequest;
+use Exception;
 
 class ClassroomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected ClassroomRepository $repo;
+
+    public function __construct(ClassroomRepository $repo)
     {
-        $classrooms = Classroom::all();
-        return ResponseHelper::success('Daftar semua kelas', $classrooms);
+        $this->repo = $repo;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan semua data kelas
+     */
+    public function index()
+    {
+        try {
+            $classrooms = $this->repo->get();
+            return ResponseHelper::success('Daftar semua kelas', $classrooms);
+        } catch (Exception $e) {
+            return ResponseHelper::error('Gagal mengambil data kelas: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Form create (tidak digunakan di API)
      */
     public function create()
     {
@@ -27,71 +38,80 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan data kelas baru
      */
     public function store(ClassroomRequest $request)
     {
+        try {
+            $validated = $request->validated();
+            $classroom = $this->repo->store($validated);
 
-        $classroom = Classroom::create($request->validated());
-
-        return ResponseHelper::success('Kelas berhasil dibuat', $classroom, 201);
+            return ResponseHelper::success('Kelas berhasil dibuat', $classroom, 201);
+        } catch (Exception $e) {
+            return ResponseHelper::error('Gagal membuat kelas: ' . $e->getMessage(), 500);
+        }
     }
 
     /**
-     * Display the specified resource.
+     * Tampilkan detail kelas berdasarkan ID
      */
     public function show($id)
     {
-        $classroom = Classroom::find($id);
+        try {
+            $classroom = $this->repo->show($id);
 
-        if (!$classroom) {
-            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            if (!$classroom) {
+                return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            }
+
+            return ResponseHelper::success('Detail kelas', $classroom);
+        } catch (Exception $e) {
+            return ResponseHelper::error('Gagal menampilkan detail kelas: ' . $e->getMessage(), 500);
         }
-
-        return ResponseHelper::success('Detail kelas', $classroom);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Form edit (tidak digunakan di API)
      */
-    public function edit(Classroom $classroom)
+    public function edit()
     {
         //
     }
 
     /**
-     * Update the specified resource in storage.
+     * Perbarui data kelas
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, $id)
     {
-        $classroom = Classroom::find($id);
+        try {
+            $validated = $request->validated();
+            $updated = $this->repo->update($id, $validated);
 
-        if (!$classroom) {
-            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            if (!$updated) {
+                return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            }
+
+            return ResponseHelper::success('Kelas berhasil diperbarui', $updated);
+        } catch (Exception $e) {
+            return ResponseHelper::error('Gagal memperbarui kelas: ' . $e->getMessage(), 500);
         }
-
-        $validated = $request->validate([
-            'name_classroom' => 'sometimes|required|string|max:255'
-        ]);
-
-        $classroom->update($validated);
-
-        return ResponseHelper::success('Kelas berhasil diperbarui', $classroom);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus data kelas
      */
     public function destroy($id)
     {
-        $classroom = Classroom::find($id);
+        try {
+            $deleted = $this->repo->destroy($id);
 
-        if (!$classroom) {
-            return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            if (!$deleted) {
+                return ResponseHelper::error('Kelas tidak ditemukan', 404);
+            }
+
+            return ResponseHelper::success('Kelas berhasil dihapus');
+        } catch (Exception $e) {
+            return ResponseHelper::error('Gagal menghapus kelas: ' . $e->getMessage(), 500);
         }
-
-        $classroom->delete();
-
-        return ResponseHelper::success('Kelas berhasil dihapus');
     }
 }

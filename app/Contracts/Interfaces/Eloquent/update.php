@@ -8,7 +8,7 @@ interface Update
      * @return mixed
      */
 
-    public function Update(mixed $id, array $data): mixed;
+    public function update(mixed $id, array $data): mixed;
 }
 
 ?>

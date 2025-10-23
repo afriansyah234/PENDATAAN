@@ -8,7 +8,7 @@ interface Store
      * @return mixed
      */
 
-    public function store(array $a): mixed;
+    public function store(array $data): mixed;
 }
 
 ?>

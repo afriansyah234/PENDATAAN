@@ -1,10 +1,10 @@
 <?php
 namespace App\Contracts\Interfaces\Eloquent;
 
-interface Baseinterface extends
+interface BaseInterface extends
     GetAll,
     Store,
-    Showdata,
+    GetById,
     update,
     delete
 {

@@ -14,7 +14,14 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('name_student');
-            $table->foreignId('classroom_id')->constrained('classrooms')->onDelete('cascade');
+            $table->string('nis')->unique();
+            $table->foreignId('classroom_id')
+                ->constrained('classrooms')
+                ->onDelete('cascade');
+            $table->enum('gender', ['L', 'P']);
+            $table->string('phone_number')->nullable();
+            $table->string('major');
+            $table->text('address')->nullable();
             $table->timestamps();
         });
     }
