@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
+use App\Http\Resources\ClassRoomResource;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::all();
-        return ResponseHelper::success($students, 'Daftar siswa berhasil diambil');
+        return ResponseHelper::success(ClassRoomResource::collection($students), 'Daftar siswa berhasil diambil');
     }
 
     /**
@@ -35,9 +36,6 @@ class StudentController extends Controller
     {
 
         $student = Student::create($request->validated());
-        $validated = $request->validate([
-
-        ]);
 
          return ResponseHelper::success('Kelas berhasil dibuat', $student, 201);
 
@@ -49,10 +47,6 @@ class StudentController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-
-        if (!$student) {
-            return ResponseHelper::error('Data siswa tidak ditemukan', 404);
-        }
 
         return ResponseHelper::success($student, 'Detail siswa berhasil diambil');
     }
@@ -69,21 +63,9 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
         $student = Student::find($id);
-
-        if (!$student) {
-            return ResponseHelper::error('Data siswa tidak ditemukan', 404);
-        }
-
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:100',
-            'email' => 'sometimes|email|unique:students,email,' . $id,
-            'phone' => 'nullable|string|max:20',
-        ]);
-
-        $student->update($validated);
 
         return ResponseHelper::success($student, 'Data siswa berhasil diperbarui');
     }
@@ -94,10 +76,6 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $student = Student::find($id);
-
-        if (!$student) {
-            return ResponseHelper::error('Data siswa tidak ditemukan', 404);
-        }
 
         $student->delete();
 
