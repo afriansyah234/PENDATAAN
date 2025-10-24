@@ -22,7 +22,8 @@ class ClassroomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_classroom' => 'required|string'
+            'name_classroom' => 'required|string|max:255',
+            'capacity'=> 'required|integer|min:1'
         ];
     }
 }
