@@ -1,3 +1,4 @@
-# TODO: Add HasApiTokens Trait to User Model
-
-- [x] Add Laravel\Sanctum\HasApiTokens trait to User model
+- [ ] Modify NotFoundHandler to be generic for all models
+- [ ] Update ClassroomController to use the generic NotFoundHandler
+- [ ] Create ClassroomSeeder with sample data
+- [ ] Test the changes

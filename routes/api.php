@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class,'login']);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
-Route::middleware(['auth:sanctum'])->prefix('user')->group(function(){
-    Route::apiResource('classrooms',ClassroomController::class);
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
+    Route::apiResource('classroom',ClassroomController::class);
     Route::apiResource('student',StudentController::class);
 });
 // Route::get('/classrooms', [ClassroomController::class, 'index']);

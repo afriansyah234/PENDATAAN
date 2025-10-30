@@ -4,7 +4,7 @@ namespace App\Contracts\Repositories;
 use App\Contracts\Interfaces\Eloquent\Baseinterface;
 use Illuminate\Database\Eloquent\Model;
 
-class BaseRepository extends Baseinterface
+class BaseRepository implements Baseinterface
 {
     /**
      * @var Model $model
@@ -56,6 +56,17 @@ class BaseRepository extends Baseinterface
     public function show(mixed $id): mixed
     {
         return $this->model->findOrFail($id);
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return mixed
+     */
+
+    public function findById(mixed $id): mixed
+    {
+        return $this->model->find($id);
     }
 
     /**

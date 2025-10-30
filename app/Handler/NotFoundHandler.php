@@ -13,11 +13,12 @@ class NotFoundHandler
         $this->repository = $repository;
     }
 
-    public function NotFound(mixed $id){
-        $data = $this->repository->show($id);
+    public function handleNotFound(mixed $id): mixed
+    {
+        $data = $this->repository->findById($id);
 
         if (!$data) {
-            return ResponseHelper::error(message:'data tidak ditemukan',code: 404);
+            return ResponseHelper::error(message:'data tidak ditemukan', code: 404);
         }
 
         return $data;

@@ -60,7 +60,7 @@ class ClassroomController extends Controller
     public function show($id)
     {
         try {
-            $classroom = $this->notFoundHandler->NotFound($id);
+            $classroom = $this->notFoundHandler->handleNotFound($id);
             return ResponseHelper::success('Detail kelas', $classroom);
         } catch (Exception $e) {
             return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
