@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Api\ClassroomController;
-use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

@@ -7,6 +7,7 @@ use App\Handler\NotFoundHandler;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\ClassroomRequest;
 use Exception;
+use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
 {
@@ -22,11 +23,14 @@ class ClassroomController extends Controller
     /**
      * Tampilkan semua data kelas
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $classrooms = $this->repo->get();
-            return ResponseHelper::success('Daftar semua kelas', $classrooms);
+            if($this->wantsJson($request)) {
+            return ResponseHelper::success('Daftar semua kelas', $classrooms);\
+        }
+        return view()
         } catch (Exception $e) {
             return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
         }
