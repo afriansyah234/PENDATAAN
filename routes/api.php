@@ -7,7 +7,8 @@ use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [LoginController::class,'login']);
+Route::post('/login', [LoginController::class, 'login']);
+
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){

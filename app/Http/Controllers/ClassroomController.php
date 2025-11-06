@@ -28,10 +28,10 @@ class ClassroomController extends Controller
         try {
             $classrooms = $this->repo->get();
             if($this->wantsJson($request)) {
-            return ResponseHelper::success('Daftar semua kelas', $classrooms);\
+            return ResponseHelper::success( $classrooms,'Daftar semua kelas');
         }
-        return view()
-        } catch (Exception $e) {
+        return view('classrooms.index',compact('classrooms'));
+    }catch (Exception $e) {
             return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
         }
     }
@@ -41,7 +41,7 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        //
+        return view('classrooms.create');
     }
 
     /**
@@ -76,7 +76,7 @@ class ClassroomController extends Controller
      */
     public function edit()
     {
-        //
+        return view('classrooms.edit');
     }
 
     /**
@@ -105,4 +105,15 @@ class ClassroomController extends Controller
             return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
         }
     }
+    protected function wantsJson(Request $request)
+{
+    // hanya anggap JSON kalau benar-benar lewat route /api/
+    if ($request->is('api/*')) {
+        return true;
+    }
+
+    // kalau bukan API URL, anggap web aja
+    return false;
+}
+
 }
