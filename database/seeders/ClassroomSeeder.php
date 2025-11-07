@@ -16,16 +16,22 @@ class ClassroomSeeder extends Seeder
     public function run(): void
     {
         $classrooms = [
-            ['name_classroom' => 'Kelas 10A'],
-            ['name_classroom' => 'Kelas 10B'],
-            ['name_classroom' => 'Kelas 11A'],
-            ['name_classroom' => 'Kelas 11B'],
-            ['name_classroom' => 'Kelas 12A'],
-            ['name_classroom' => 'Kelas 12B'],
+            [
+                'name_classroom' => 'Kelas 10A',
+                'capacity' => 21,
+            ],
+            [
+                'name_classroom' => 'Kelas 11B',
+                'capacity' => 19,
+            ],
+            [
+                'name_classroom' => 'Kelas 12C',
+                'capacity' => 25,
+            ],
         ];
 
         foreach ($classrooms as $classroom) {
-            Classroom::create($classroom);
+            Classroom::firstOrCreate($classroom);
         }
     }
 }
