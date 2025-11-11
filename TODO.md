@@ -18,7 +18,7 @@
 
 ## 👨‍🏫 Fitur Guru
 - [x] Buat `GuruController`
-- [ ] Implementasi CRUD data guru
+- [x] Implementasi CRUD data guru
 - [x] Tambahkan validasi input: nama, NIP, kontak, status aktif
 - [x] Tambahkan relasi guru dengan data PKL yang dibimbing
 
