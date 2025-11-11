@@ -6,13 +6,13 @@
 ## ⚙️ Setup Dasar
 - [x] Inisialisasi project Laravel baru `pendataan-pkl`
 - [x] Konfigurasi koneksi database di `.env`
-- [x] Buat model dasar: `Guru`, `Siswa`, `Perusahaan`, `PKL`
-- [ ] Tambahkan migrasi untuk setiap tabel
-- [ ] Definisikan relasi antar model:
-  - [ ] `Guru` → `hasMany(PKL)`
-  - [ ] `Siswa` → `hasOne(PKL)`
-  - [ ] `Perusahaan` → `hasMany(PKL)`
-  - [ ] `PKL` → `belongsTo(Guru)`, `belongsTo(Siswa)`, `belongsTo(Perusahaan)`
+- [x] Buat model dasar: `Teacher`, `Student`, `Companies`, `Interships`
+- [x] Tambahkan migrasi untuk setiap tabel
+- [x] Definisikan relasi antar model:
+  - [x] `Teacher` → `hasMany(Internship)`
+  - [x] `Siswa` → `hasOne(Internship)`
+  - [x] `Companies` → `hasMany(Internship)`
+  - [x] `Internship` → `belongsTo(Guru)`, `belongsTo(Siswa)`, `belongsTo(Companies)`
 
 ---
 

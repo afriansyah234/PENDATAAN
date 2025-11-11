@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassroomRequest extends FormRequest
+class TeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,8 +22,7 @@ class ClassroomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_kelas' => 'required|string|max:255',
-            'kapasitas'=> 'required|integer|min:1'
+            //
         ];
     }
 }

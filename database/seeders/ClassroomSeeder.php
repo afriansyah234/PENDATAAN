@@ -17,16 +17,16 @@ class ClassroomSeeder extends Seeder
     {
         $classrooms = [
             [
-                'name_classroom' => 'Kelas 10A',
-                'capacity' => 21,
+                'nama_kelas' => 'Kelas 10A',
+                'kapasitas' => 21,
             ],
             [
-                'name_classroom' => 'Kelas 11B',
-                'capacity' => 19,
+                'nama_kelas' => 'Kelas 11B',
+                'kapasitas' => 19,
             ],
             [
-                'name_classroom' => 'Kelas 12C',
-                'capacity' => 25,
+                'nama_kelas' => 'Kelas 12C',
+                'kapasitas' => 25,
             ],
         ];
 

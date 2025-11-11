@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('internships', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('students_id')->constrained('students');
+            $table->foreignId('teachers_id')->constrained('teachers');
+            $table->foreignId('companies_id')->constrained('companies');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
+            $table->enum('status',['aktif','selesai','batal'])->default('aktif');
+            $table->text('catatan_guru');
+            $table->enum('laporan_pkl',['selesai','belum']);
             $table->timestamps();
         });
     }
