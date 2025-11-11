@@ -17,15 +17,15 @@
 ---
 
 ## 👨‍🏫 Fitur Guru
-- [ ] Buat `GuruController`
+- [x] Buat `GuruController`
 - [ ] Implementasi CRUD data guru
-- [ ] Tambahkan validasi input: nama, NIP, kontak, status aktif
-- [ ] Tambahkan relasi guru dengan data PKL yang dibimbing
+- [x] Tambahkan validasi input: nama, NIP, kontak, status aktif
+- [x] Tambahkan relasi guru dengan data PKL yang dibimbing
 
 ---
 
 ## 👩‍🎓 Fitur Siswa
-- [ ] Buat `SiswaController`
+- [x] Buat `SiswaController`
 - [ ] Implementasi CRUD data siswa
 - [ ] Tambahkan validasi input: nama, NIS, kelas, jurusan
 - [ ] Tambahkan relasi ke guru pembimbing dan data PKL

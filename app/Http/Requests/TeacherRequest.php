@@ -11,7 +11,7 @@ class TeacherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class TeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "user_id" => "required|exists:users,id",
+            "nip" => "required|integer|unique:teachers,nip",
+            "no_telepon" => "nullable|string"
         ];
     }
 }

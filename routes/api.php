@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:san
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
     Route::apiResource('classroom',ClassroomController::class);
     Route::apiResource('student',StudentController::class);
+    Route::apiResource('teacher',TeacherController::class);
 });
 // Route::get('/classrooms', [ClassroomController::class, 'index']);
 // Route::post('/classrooms', [ClassroomController::class, 'store']);
