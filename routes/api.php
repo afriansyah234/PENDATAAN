@@ -15,6 +15,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
     Route::apiResource('classroom',ClassroomController::class);
+    Route::apiResource('companies',CompaniesController::class);
     Route::apiResource('student',StudentController::class);
     Route::apiResource('teacher',TeacherController::class);
 });
@@ -34,4 +35,3 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-    Route::apiResource('companies',CompaniesController::class);
