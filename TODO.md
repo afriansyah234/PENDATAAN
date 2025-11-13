@@ -24,6 +24,14 @@
 
 ---
 
+##    Fitur Kelas
+- [x] Buat `ClassRoomController`
+- [x] Implementasi CRUD data kelas
+- [x] Tambahkan validasi input: nama_kelas, kapasitas
+- [x] buat fitur crud untuk table classrooms
+
+---
+
 ## 👩‍🎓 Fitur Siswa
 - [x] Buat `SiswaController`
 - [ ] Implementasi CRUD data siswa
