@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -33,3 +34,4 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+    Route::apiResource('companies',CompaniesController::class);
