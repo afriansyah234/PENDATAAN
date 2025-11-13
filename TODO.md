@@ -35,8 +35,8 @@
 ## 👩‍🎓 Fitur Siswa
 - [x] Buat `SiswaController`
 - [ ] Implementasi CRUD data siswa
-- [ ] Tambahkan validasi input: nama, NIS, kelas, jurusan
-- [ ] Tambahkan relasi ke guru pembimbing dan data PKL
+- [x] Tambahkan validasi input: nama, NIS, kelas, jurusan
+- [x] Tambahkan relasi ke guru pembimbing dan data PKL
 - [ ] Validasi: satu siswa hanya boleh memiliki satu data PKL aktif
 
 ---

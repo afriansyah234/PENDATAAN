@@ -22,11 +22,12 @@ class StudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_student' => 'required|string|max:100',
-            'nis'=>'required|unique:nis',
+            'nama_siswa' => 'required|string|max:100',
+            'nis' => 'required|unique:students,nis',
+
             'gender'=>'required',
             'classroom_id'=>'required',
-            'major'=>'required|string',
+            'jurusan'=>'required|string',
             'email' => 'required|email|unique:students,email',
             'phone_number' => 'nullable|integer|max:20',
             'address'=> 'nullable'
