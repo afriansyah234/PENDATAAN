@@ -34,9 +34,9 @@
 ---
 
 ## 🏢 Fitur Perusahaan
-- [ ] Buat `PerusahaanController`
-- [ ] Implementasi CRUD data perusahaan (nama, alamat, bidang, kontak)
-- [ ] Tambahkan relasi perusahaan dengan data PKL (`hasMany`)
+- [x] Buat `PerusahaanController`
+- [x] Implementasi CRUD data perusahaan (nama, alamat, bidang, kontak)
+- [x] Tambahkan relasi perusahaan dengan data PKL (`hasMany`)
 
 ---
 
