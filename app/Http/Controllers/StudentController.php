@@ -64,11 +64,14 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      */
     public function update(StudentRequest $request, $id)
-    {
-        $student = Student::find($id);
+{
+    $student = Student::findOrFail($id);
 
-        return ResponseHelper::success($student, 'Data siswa berhasil diperbarui');
-    }
+    $student->update($request->validated());
+
+    return ResponseHelper::success($student, 'Data siswa berhasil diperbarui');
+}
+
 
     /**
      * Remove the specified resource from storage.

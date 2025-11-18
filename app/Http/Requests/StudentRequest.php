@@ -24,13 +24,13 @@ class StudentRequest extends FormRequest
         return [
             'nama_siswa' => 'required|string|max:100',
             'nis' => 'required|unique:students,nis',
-
+            'teachers_id' => 'required|exists:teachers,id',
             'gender'=>'required',
             'classroom_id'=>'required',
             'jurusan'=>'required|string',
             'email' => 'required|email|unique:students,email',
             'phone_number' => 'nullable|integer|max:20',
-            'address'=> 'nullable'
+            'alamat'=> 'nullable'
         ];
     }
 }
