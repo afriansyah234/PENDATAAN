@@ -19,18 +19,44 @@ class StudentRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'nama_siswa' => 'required|string|max:100',
-            'nis' => 'required|unique:students,nis',
-            'teachers_id' => 'required|exists:teachers,id',
-            'gender'=>'required',
-            'classroom_id'=>'required',
-            'jurusan'=>'required|string',
-            'email' => 'required|email|unique:students,email',
-            'phone_number' => 'nullable|integer|max:20',
-            'alamat'=> 'nullable'
-        ];
-    }
+   public function rules(): array
+{
+    // Ambil ID student dari route
+    // Bisa dari route model binding atau dari {id}
+    $student = $this->route('student') ?? $this->route('id');
+    $studentId = is_object($student) ? $student->id : $student;
+
+    // Tentukan required atau sometimes
+    $required = $this->isMethod('post') ? 'required' : 'sometimes';
+
+    return [
+        'nama_siswa'   => [$required, 'string', 'max:100'],
+
+        'nis'          => [
+            $required,
+            'string',
+            'unique:students,nis,' . $studentId
+        ],
+
+        'teachers_id'  => [$required, 'exists:teachers,id'],
+
+        'gender'       => [$required, 'in:L,P'],
+
+        'classroom_id' => [$required, 'exists:classrooms,id'],
+
+        'jurusan'      => [$required, 'string'],
+
+        'email'        => [
+            $required,
+            'email',
+            'unique:students,email,' . $studentId
+        ],
+
+        // integer + max di integer itu salah → max membandingkan nilai, bukan panjang
+        'phone_number' => ['nullable', 'string', 'max:20'],
+
+        'alamat'       => ['nullable', 'string'],
+    ];
+}
+
 }
