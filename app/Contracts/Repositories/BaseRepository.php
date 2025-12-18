@@ -40,7 +40,7 @@ class BaseRepository implements Baseinterface
      * @return mixed
      */
 
-    public function Update(mixed $id, array $data): mixed
+    public function update(mixed $id, array $data): mixed
     {
         $model = $this->show($id);
         $model->update($data);

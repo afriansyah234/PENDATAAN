@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Http\Resources\ClassRoomResource;
+use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,25 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+public function index(Request $request)
     {
-        $students = Student::all();
-        return ResponseHelper::success(ClassRoomResource::collection($students), 'Daftar siswa berhasil diambil');
+        $search = $request->query('search');
+
+    $students = Student::with(['classroom', 'teacher'])
+        ->when($search, function ($query, $search) {
+            $query->where('nama_siswa', 'like', "%{$search}%")
+                  ->orWhere('nis', 'like', "%{$search}%")
+                  ->orWhere('jurusan', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('no_telp', 'like', "%{$search}%");
+        })
+        ->get();
+
+    return ResponseHelper::success(
+        StudentResource::collection($students),
+        'Daftar siswa berhasil diambil'
+    );
     }
 
     /**

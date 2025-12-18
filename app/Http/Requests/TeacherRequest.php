@@ -19,24 +19,15 @@ class TeacherRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+public function rules(): array
 {
-    $teacherId = $this->route('teacher'); // ambil id dari route model binding
-
     return [
-        "user_id" => [
-            $this->isMethod('post') ? 'required' : 'sometimes',
-            'exists:users,id'
-        ],
-
-        "nip" => [
-            $this->isMethod('post') ? 'required' : 'sometimes',
-            'integer',
-            'unique:teachers,nip,' . $teacherId
-        ],
-
-        "no_telepon" => "nullable|string"
+        'user_id'     => 'required|exists:users,id',
+        'no_telepon'  => 'required',
+        'nip'         => 'required|integer|unique:teachers,nip,' . $this->route('teacher'),
     ];
 }
+
+
 
 }

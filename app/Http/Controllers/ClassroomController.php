@@ -24,18 +24,25 @@ class ClassroomController extends Controller
     /**
      * Tampilkan semua data kelas
      */
-    public function index(Request $request)
-    {
-        try {
-            $classrooms = $this->repo->get();
-            if($this->wantsJson($request)) {
-            return ResponseHelper::success( ClassRoomResource::collection($classrooms),'Daftar semua kelas');
+public function index(Request $request)
+{
+    try {
+        $search = $request->query('search');
+
+        $classrooms = $this->repo->get($search);
+
+        if ($this->wantsJson($request)) {
+            return ResponseHelper::success(
+                ClassRoomResource::collection($classrooms),
+                'Daftar semua kelas'
+            );
         }
-        return view('classrooms.index',compact('classrooms'));
-    }catch (Exception $e) {
-            return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
-        }
+
+        return view('classrooms.index', compact('classrooms'));
+    } catch (Exception $e) {
+        return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
     }
+}
 
     /**
      * Form create (tidak digunakan di API)
