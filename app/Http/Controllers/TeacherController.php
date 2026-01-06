@@ -33,7 +33,6 @@ class TeacherController extends Controller
                 return ResponseHelper::success(
                     'Daftar semua guru',
                     TeacherResource::collection($teachers)
-                    
                 );
             }
 
