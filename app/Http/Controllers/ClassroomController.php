@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Repositories\ClassroomRepository;
 use App\Handler\NotFoundHandler;
 use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassroomRequest;
 use App\Http\Resources\ClassRoomResource;
 use Exception;
@@ -15,135 +16,113 @@ class ClassroomController extends Controller
     protected ClassroomRepository $repo;
     protected NotFoundHandler $notFoundHandler;
 
-    public function __construct(ClassroomRepository $repo, NotFoundHandler $notFoundHandler)
-    {
+    public function __construct(
+        ClassroomRepository $repo,
+        NotFoundHandler $notFoundHandler
+    ) {
         $this->repo = $repo;
         $this->notFoundHandler = $notFoundHandler;
     }
 
     /**
-     * Tampilkan semua data kelas
+     * GET /api/classrooms
      */
-public function index(Request $request)
-{
-    try {
-        $search = $request->query('search');
+    public function index(Request $request)
+    {
+        try {
+            $search = $request->query('search');
+            $classrooms = $this->repo->get($search);
 
-        $classrooms = $this->repo->get($search);
-
-        if ($this->wantsJson($request)) {
             return ResponseHelper::success(
                 ClassRoomResource::collection($classrooms),
                 'Daftar semua kelas'
             );
+        } catch (Exception $e) {
+            return ResponseHelper::error(
+                message: $e->getMessage(),
+                code: $e->getCode() ?: 500
+            );
         }
-
-        return view('classrooms.index', compact('classrooms'));
-    } catch (Exception $e) {
-        return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
-    }
-}
-
-    /**
-     * Form create (tidak digunakan di API)
-     */
-    public function create()
-    {
-        return view('classrooms.create');
     }
 
     /**
-     * Simpan data kelas baru
+     * POST /api/classrooms
      */
     public function store(ClassroomRequest $request)
     {
         try {
             $classroom = $this->repo->store($request->validated());
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success('Kelas berhasil dibuat', new ClassRoomResource($classroom), 201);
-            }
-            return redirect()->route('classrooms.index')->with('success', 'Kelas berhasil dibuat');
+
+            return ResponseHelper::success(
+                new ClassRoomResource($classroom),
+                'Kelas berhasil dibuat',
+                201
+            );
         } catch (Exception $e) {
-            return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
+            return ResponseHelper::error(
+                message: $e->getMessage(),
+                code: $e->getCode() ?: 500
+            );
         }
     }
 
     /**
-     * Tampilkan detail kelas berdasarkan ID
+     * GET /api/classrooms/{id}
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         try {
             $classroom = $this->notFoundHandler->handleNotFound($id);
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success('Detail kelas', $classroom);
-            }
-            return view('classrooms.show', compact('classroom'));
+
+            return ResponseHelper::success(
+                new ClassRoomResource($classroom),
+                'Detail kelas'
+            );
         } catch (Exception $e) {
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
-            }
-            return redirect()->route('classrooms.index')->with('error', 'Kelas tidak ditemukan');
+            return ResponseHelper::error(
+                message: $e->getMessage(),
+                code: $e->getCode() ?: 404
+            );
         }
     }
 
     /**
-     * Form edit (tidak digunakan di API)
-     */
-    public function edit($id)
-    {
-        try {
-            $classroom = $this->repo->show($id);
-            return view('classrooms.edit', compact('classroom'));
-        } catch (Exception $e) {
-            return redirect()->route('classrooms.index')->with('error', 'Kelas tidak ditemukan');
-        }
-    }
-
-    /**
-     * Perbarui data kelas
+     * PUT /api/classrooms/{id}
      */
     public function update(ClassroomRequest $request, $id)
     {
         try {
-            $updated = $this->repo->Update($id, $request->validated());
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success('Kelas berhasil diperbarui', new ClassRoomResource($updated));
-            }
-            return redirect()->route('classrooms.index')->with('success', 'Kelas berhasil diperbarui');
+            $updated = $this->repo->update($id, $request->validated());
+
+            return ResponseHelper::success(
+                new ClassRoomResource($updated),
+                'Kelas berhasil diperbarui'
+            );
         } catch (Exception $e) {
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
-            }
-            return redirect()->route('classrooms.index')->with('error', 'Gagal memperbarui kelas: ' . $e->getMessage());
+            return ResponseHelper::error(
+                message: $e->getMessage(),
+                code: $e->getCode() ?: 500
+            );
         }
     }
 
     /**
-     * Hapus data kelas
+     * DELETE /api/classrooms/{id}
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         try {
-            $deleted = $this->repo->destroy($id);
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success(null,'Kelas berhasil dihapus');
-            }
-            return redirect()->route('classrooms.index')->with('success', 'Kelas berhasil dihapus');
+            $this->repo->destroy($id);
+
+            return ResponseHelper::success(
+                null,
+                'Kelas berhasil dihapus'
+            );
         } catch (Exception $e) {
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::error(message: $e->getMessage(),code:$e->getCode());
-            }
-            return redirect()->route('classrooms.index')->with('error', 'Gagal menghapus kelas: ' . $e->getMessage());
+            return ResponseHelper::error(
+                message: $e->getMessage(),
+                code: $e->getCode() ?: 500
+            );
         }
     }
-
-    protected function wantsJson(Request $request)
-    {
-        if ($request->is('api/*')) {
-        return true;
-        }
-        return false;
-    }
-
 }

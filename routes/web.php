@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,15 +15,15 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // Grup route classrooms
-Route::prefix('classrooms')->controller(ClassroomController::class)->group(function () {
-    Route::get('/', 'index')->name('classrooms.index');
-    Route::get('/create', 'create')->name('classrooms.create');
-    Route::post('/', 'store')->name('classrooms.store');
-    Route::get('/{id}', 'show')->name('classrooms.show');
-    Route::get('/{id}/edit', 'edit')->name('classrooms.edit');
-    Route::put('/{id}', 'update')->name('classrooms.update');
-    Route::delete('/{id}', 'destroy')->name('classrooms.destroy');
-});
+// Route::prefix('classrooms')->controller(ClassroomController::class)->group(function () {
+//     Route::get('/', 'index')->name('classrooms.index');
+//     Route::get('/create', 'create')->name('classrooms.create');
+//     Route::post('/', 'store')->name('classrooms.store');
+//     Route::get('/{id}', 'show')->name('classrooms.show');
+//     Route::get('/{id}/edit', 'edit')->name('classrooms.edit');
+//     Route::put('/{id}', 'update')->name('classrooms.update');
+//     Route::delete('/{id}', 'destroy')->name('classrooms.destroy');
+//});
 Route::get('/l', function () {
     return view('layouts.dashboard');
 });
