@@ -28,15 +28,9 @@ class CompaniesController extends Controller
     {
         try {
             $companies = $this->repo->get();
-
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success(
-                    CompaniesResource::collection($companies),
-                    'Daftar semua perusahaan'
+             return ResponseHelper::success(
+                    'Daftar semua perusahaan',CompaniesResource::collection($companies),
                 );
-            }
-
-            return view('companies.index', compact('companies'));
         } catch (Exception $e) {
             return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
         }
@@ -47,7 +41,7 @@ class CompaniesController extends Controller
      */
     public function create()
     {
-        return view('companies.create');
+       //
     }
 
     /**
@@ -57,16 +51,11 @@ class CompaniesController extends Controller
     {
         try {
             $company = $this->repo->store($request->validated());
-
-            if ($this->wantsJson($request)) {
                 return ResponseHelper::success(
-                    new CompaniesResource($company),
                     'Perusahaan berhasil dibuat',
+                    new CompaniesResource($company),
                     201
                 );
-            }
-
-            return redirect()->route('companies.index')->with('success', 'Perusahaan berhasil dibuat');
         } catch (Exception $e) {
             return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
         }
@@ -78,16 +67,12 @@ class CompaniesController extends Controller
     public function show(Request $request, $id)
     {
         try {
-            $company = $this->notFoundHandler->handleNotFound($id, 'company');
+            $company = $this->notFoundHandler->handleNotFound($id);
 
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success(
+            return ResponseHelper::success(
+                'Detail perusahaan',
                     new CompaniesResource($company),
-                    'Detail perusahaan'
                 );
-            }
-
-            return view('companies.show', compact('company'));
         } catch (Exception $e) {
             if ($this->wantsJson($request)) {
                 return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
@@ -102,12 +87,7 @@ class CompaniesController extends Controller
      */
     public function edit($id)
     {
-        try {
-            $company = $this->repo->show($id);
-            return view('companies.edit', compact('company'));
-        } catch (Exception $e) {
-            return redirect()->route('companies.index')->with('error', 'Perusahaan tidak ditemukan');
-        }
+        //
     }
 
     /**
@@ -118,14 +98,10 @@ class CompaniesController extends Controller
         try {
             $updated = $this->repo->update($id, $request->validated());
 
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success(
+            return ResponseHelper::success(
+                    'Perusahaan berhasil diperbarui',
                     new CompaniesResource($updated),
-                    'Perusahaan berhasil diperbarui'
                 );
-            }
-
-            return redirect()->route('companies.index')->with('success', 'Perusahaan berhasil diperbarui');
         } catch (Exception $e) {
             if ($this->wantsJson($request)) {
                 return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
@@ -143,11 +119,7 @@ class CompaniesController extends Controller
         try {
             $this->repo->destroy($id);
 
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::success(null, 'Perusahaan berhasil dihapus');
-            }
-
-            return redirect()->route('companies.index')->with('success', 'Perusahaan berhasil dihapus');
+            return ResponseHelper::success('Perusahaan berhasil dihapus',null,);
         } catch (Exception $e) {
             if ($this->wantsJson($request)) {
                 return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());

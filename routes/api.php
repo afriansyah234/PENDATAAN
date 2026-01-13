@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [LoginController::class, 'login']);
-
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
+
+
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function(){
     Route::apiResource('classroom',ClassroomController::class);
     Route::apiResource('companies',CompaniesController::class);

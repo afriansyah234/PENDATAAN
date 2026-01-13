@@ -34,8 +34,8 @@ class ClassroomController extends Controller
             $classrooms = $this->repo->get($search);
 
             return ResponseHelper::success(
-                ClassRoomResource::collection($classrooms),
-                'Daftar semua kelas'
+                'Daftar semua kelas',ClassRoomResource::collection($classrooms),
+
             );
         } catch (Exception $e) {
             return ResponseHelper::error(
@@ -54,8 +54,8 @@ class ClassroomController extends Controller
             $classroom = $this->repo->store($request->validated());
 
             return ResponseHelper::success(
-                new ClassRoomResource($classroom),
-                'Kelas berhasil dibuat',
+                'Kelas berhasil dibuat',new ClassRoomResource($classroom),
+
                 201
             );
         } catch (Exception $e) {
@@ -75,8 +75,8 @@ class ClassroomController extends Controller
             $classroom = $this->notFoundHandler->handleNotFound($id);
 
             return ResponseHelper::success(
-                new ClassRoomResource($classroom),
-                'Detail kelas'
+                'Detail kelas',new ClassRoomResource($classroom),
+
             );
         } catch (Exception $e) {
             return ResponseHelper::error(
@@ -95,8 +95,8 @@ class ClassroomController extends Controller
             $updated = $this->repo->update($id, $request->validated());
 
             return ResponseHelper::success(
-                new ClassRoomResource($updated),
-                'Kelas berhasil diperbarui'
+
+                'Kelas berhasil diperbarui',new ClassRoomResource($updated),
             );
         } catch (Exception $e) {
             return ResponseHelper::error(
@@ -115,8 +115,7 @@ class ClassroomController extends Controller
             $this->repo->destroy($id);
 
             return ResponseHelper::success(
-                null,
-                'Kelas berhasil dihapus'
+                'Kelas berhasil dihapus',null,
             );
         } catch (Exception $e) {
             return ResponseHelper::error(
