@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['nama_siswa','nis','classroom_id','gender','no_telp','jurusan','email','alamat','teachers_id'];
+    protected $fillable = ['nama_siswa','nis','classroom_id','gender','no_telp','jurusan','email','alamat','teacher_id'];
 
 
     public function classroom()
@@ -21,6 +21,6 @@ class Student extends Model
 
     public function internships()
     {
-        return $this->hasOne(internships::class);
+        return $this->hasOne(Internships::class);
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('jurusan');
             $table->string('email');
             $table->text('alamat')->nullable();
-            $table->foreignId('teachers_id')->constrained('teachers')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }

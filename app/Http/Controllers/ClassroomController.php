@@ -7,7 +7,12 @@ use App\Handler\NotFoundHandler;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassroomRequest;
+use App\Http\Requests\StudentRequest;
 use App\Http\Resources\ClassRoomResource;
+use App\Http\Resources\StudentResource;
+use App\Models\Classroom;
+use App\Models\Student;
+use App\Services\Classroom\AssignStudentToClassroomService;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -89,11 +94,15 @@ class ClassroomController extends Controller
     /**
      * PUT /api/classrooms/{id}
      */
-    public function update(ClassroomRequest $request, $id)
-    {
-        try {
-            $updated = $this->repo->update($id, $request->validated());
+    public function update(
+    StudentRequest $request,
+    $id,
+    AssignStudentToClassroomService $service
+) {
+    $student = Student::findOrFail($id);
+    $data = $request->validated();
 
+<<<<<<< Updated upstream
             return ResponseHelper::success(
 
                 'Kelas berhasil diperbarui',new ClassRoomResource($updated),
@@ -104,7 +113,28 @@ class ClassroomController extends Controller
                 code: $e->getCode() ?: 500
             );
         }
+=======
+    // update data selain classroom
+    $student->update(
+        collect($data)->except('classroom_id')->toArray()
+    );
+
+    // kalau classroom diganti → lewat service
+    if (
+        isset($data['classroom_id']) &&
+        $data['classroom_id'] !== $student->classroom_id
+    ) {
+        $classroom = Classroom::findOrFail($data['classroom_id']);
+        $service->execute($classroom, $student);
+>>>>>>> Stashed changes
     }
+
+    return ResponseHelper::success(
+        new StudentResource($student->load('classroom')),
+        'Data siswa berhasil diperbarui'
+    );
+}
+
 
     /**
      * DELETE /api/classrooms/{id}

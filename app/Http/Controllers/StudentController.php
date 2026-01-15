@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Http\Resources\ClassRoomResource;
 use App\Http\Resources\StudentResource;
+use App\Models\Classroom;
 use App\Models\Student;
+use App\Services\Classroom\AssignStudentToClassroomService;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -48,13 +50,21 @@ public function index(Request $request)
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StudentRequest $request)
+    public function store(StudentRequest $request,AssignStudentToClassroomService $service)
     {
 
-        $student = Student::create($request->validated());
+        $data = $request->validated();
+        $student = Student::create(collect($data)->except('classroom_id')->toArray());
+if (isset($data['classroom_id'])) {
+        $classroom = Classroom::findOrFail($data['classroom_id']);
+        $service->execute($classroom, $student);
+    }
 
-         return ResponseHelper::success('Kelas berhasil dibuat', $student, 201);
-
+    return ResponseHelper::success(
+        new StudentResource($student->load('classroom')),
+        'Siswa berhasil dibuat',
+        201
+    );
     }
 
     /**
