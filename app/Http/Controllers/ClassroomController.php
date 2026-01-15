@@ -102,18 +102,6 @@ class ClassroomController extends Controller
     $student = Student::findOrFail($id);
     $data = $request->validated();
 
-<<<<<<< Updated upstream
-            return ResponseHelper::success(
-
-                'Kelas berhasil diperbarui',new ClassRoomResource($updated),
-            );
-        } catch (Exception $e) {
-            return ResponseHelper::error(
-                message: $e->getMessage(),
-                code: $e->getCode() ?: 500
-            );
-        }
-=======
     // update data selain classroom
     $student->update(
         collect($data)->except('classroom_id')->toArray()
@@ -126,7 +114,6 @@ class ClassroomController extends Controller
     ) {
         $classroom = Classroom::findOrFail($data['classroom_id']);
         $service->execute($classroom, $student);
->>>>>>> Stashed changes
     }
 
     return ResponseHelper::success(

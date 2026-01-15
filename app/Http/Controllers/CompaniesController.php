@@ -64,22 +64,14 @@ class CompaniesController extends Controller
     /**
      * Detail perusahaan
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        try {
-            $company = $this->notFoundHandler->handleNotFound($id);
-
-            return ResponseHelper::success(
-                'Detail perusahaan',
-                    new CompaniesResource($company),
-                );
-        } catch (Exception $e) {
-            if ($this->wantsJson($request)) {
-                return ResponseHelper::error(message: $e->getMessage(), code: $e->getCode());
-            }
-
-            return redirect()->route('companies.index')->with('error', 'Perusahaan tidak ditemukan');
-        }
+       try {
+        $com = $this->notFoundHandler->handleNotFound($id);
+        return ResponseHelper::success(message:'data berhasil ditampilkan',data: new CompaniesResource($com));
+       } catch (\Throwable $th) {
+        //throw $th;
+       }
     }
 
     /**

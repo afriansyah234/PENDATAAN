@@ -16,8 +16,6 @@ class CompaniesResource extends JsonResource
             'no_telepon' => $this->no_telepon,
             'email' => $this->email,
             'penanggung_jawab' => $this->penanggung_jawab,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
